@@ -1,47 +1,96 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rm_65_description">
 
+    <!-- Import claw_description urdf file -->
+    <!-- <xacro:include filename="$(find rm_description)/urdf/rm_65_gazebo.urdf" /> -->
+    <xacro:include filename="/home/txszju/Code/addx/ws_rm_robot/src/ros2_rm_robot/rm_description/urdf/rm_65_gazebo.urdf" />
+
+
+
     <!-- Used for fixing robot to Gazebo 'base_link' 将机械手的基座固定在世界坐标上-->
     <link name="world"/>
-    <joint name="fixed" type="fixed">
+    <joint name="world-base-fix" type="fixed">
         <parent link="world"/>
         <child link="base_link"/>
     </joint>
 
-    <!-- Import claw_description urdf file -->
-    <xacro:include filename="$(find rm_description)/urdf/rm_65_gazebo.urdf" />
 
+    <!--定义一个工具坐标系-->
+    <!-- <link name="gripper_tip_link"/> -->
+    <!-- <joint name="gripper_tip_joint" type="fixed"> -->
+      <!-- <origin xyz="0 0 0.1523" rpy="0 0 0"/> -->
+      <!-- <origin xyz="0 0 0" rpy="0 0 0"/> -->
+      <!-- <parent link="Link6"/> -->
+      <!-- <child link="gripper_tip_link"/> -->
+    <!-- </joint> -->
+
+    <!-- gripper -->
+    <xacro:include filename="$(find rm_description)/urdf/gripper/gripper_gazebo.xacro" />
+    <xacro:gripper parent_link="Link6" />
 
     <!-- 对一些link进行gazebo的属性设置 -->
     <gazebo reference="base_link">
         <self_collide>false</self_collide>
+        <!-- <material>Gazebo/Blue</material> -->
         <gravity>false</gravity>
     </gazebo>
-    <gazebo reference="link1">
-        <material>Gazebo/Purple</material>
+    <gazebo reference="Link1">
+        <!-- <material>Gazebo/Purple</material> -->
+        <!-- <material>Gazebo/Blue</material> -->
         <self_collide>false</self_collide>
         <gravity>false</gravity>
     </gazebo>
-    <gazebo reference="link2">
-        <material>Gazebo/Red</material>
+    <gazebo reference="Link2">
+        <!-- <material>Gazebo/Red</material> -->
+        <!-- <material>Gazebo/Blue</material> -->
         <gravity>false</gravity>
     </gazebo>
-    <gazebo reference="link3">
-        <material>Gazebo/Blue</material>
+    <gazebo reference="Link3">
+        <!-- <material>Gazebo/Blue</material> -->
         <gravity>false</gravity>
     </gazebo>
-    <gazebo reference="link4">
-        <material>Gazebo/Green</material>
+    <gazebo reference="Link4">
+        <!-- <material>Gazebo/Green</material> -->
+        <!-- <material>Gazebo/Blue</material> -->
         <gravity>false</gravity>
     </gazebo>
-    <gazebo reference="link5">
-        <material>Gazebo/Yellow</material>
+    <gazebo reference="Link5">
+        <!-- <material>Gazebo/Yellow</material> -->
+        <!-- <material>Gazebo/Blue</material> -->
         <gravity>false</gravity>
     </gazebo>
-    <gazebo reference="link6">
-        <material>Gazebo/Orange</material>
+    <gazebo reference="Link6">
+        <!-- <material>Gazebo/Orange</material> -->
+        <!-- <material>Gazebo/Blue</material> -->
         <gravity>false</gravity>
     </gazebo>
+
+    <gazebo reference="gripper_base_link">
+        <!-- <material>Gazebo/Orange</material> -->
+        <!-- <material>Gazebo/Blue</material> -->
+        <gravity>false</gravity>
+    </gazebo>
+    <gazebo reference="gripper_Link1">
+        <!-- <material>Gazebo/Orange</material> -->
+        <!-- <material>Gazebo/Blue</material> -->
+        <gravity>false</gravity>
+    </gazebo>
+    <gazebo reference="gripper_Link2">
+        <!-- <material>Gazebo/Orange</material> -->
+        <!-- <material>Gazebo/Blue</material> -->
+        <gravity>false</gravity>
+    </gazebo>
+    <gazebo reference="gripper_Link3">
+        <!-- <material>Gazebo/Orange</material> -->
+        <!-- <material>Gazebo/Blue</material> -->
+        <gravity>false</gravity>
+    </gazebo>
+    <gazebo reference="gripper_Link4">
+        <!-- <material>Gazebo/Orange</material> -->
+        <!-- <material>Gazebo/Blue</material> -->
+        <gravity>false</gravity>
+    </gazebo>
+
 
 
     <gazebo>
@@ -57,45 +106,103 @@
         </hardware>
         <joint name="joint1">
             <command_interface name="position"/>
+            <command_interface name="velocity"/>
             <state_interface name="position">
                 <param name="initial_value">0</param>
             </state_interface>
-            <state_interface name="velocity"/>
+            <state_interface name="velocity">
+                <param name="initial_value">0</param>
+            </state_interface>
         </joint>
         <joint name="joint2">
             <command_interface name="position"/>
+            <command_interface name="velocity"/>
             <state_interface name="position">
                 <param name="initial_value">0</param>
             </state_interface>
-            <state_interface name="velocity"/>
+            <state_interface name="velocity">
+                <param name="initial_value">0</param>
+            </state_interface>
         </joint>
         <joint name="joint3">
             <command_interface name="position"/>
+            <command_interface name="velocity"/>
             <state_interface name="position">
                 <param name="initial_value">0</param>
             </state_interface>
-            <state_interface name="velocity"/>
+            <state_interface name="velocity">
+                <param name="initial_value">0</param>
+            </state_interface>
         </joint>
         <joint name="joint4">
             <command_interface name="position"/>
+            <command_interface name="velocity"/>
             <state_interface name="position">
                 <param name="initial_value">0</param>
             </state_interface>
-            <state_interface name="velocity"/>
+            <state_interface name="velocity">
+                <param name="initial_value">0</param>
+            </state_interface>
         </joint>
         <joint name="joint5">
             <command_interface name="position"/>
+            <command_interface name="velocity"/>
             <state_interface name="position">
                 <param name="initial_value">0</param>
             </state_interface>
-            <state_interface name="velocity"/>
+            <state_interface name="velocity">
+                <param name="initial_value">0</param>
+            </state_interface>
         </joint>
         <joint name="joint6">
             <command_interface name="position"/>
+            <command_interface name="velocity"/>
             <state_interface name="position">
                 <param name="initial_value">0</param>
             </state_interface>
-            <state_interface name="velocity"/>
+            <state_interface name="velocity">
+                <param name="initial_value">0</param>
+            </state_interface>
+        </joint>
+        <joint name="gripper_joint1">
+            <command_interface name="position"/>
+            <!-- <command_interface name="velocity"/> -->
+            <state_interface name="position">
+                <param name="initial_value">0</param>
+            </state_interface>
+            <state_interface name="velocity">
+                <param name="initial_value">0</param>
+            </state_interface>
+        </joint>
+        <joint name="gripper_joint2">
+            <command_interface name="position"/>
+            <!-- <command_interface name="velocity"/> -->
+            <state_interface name="position">
+                <param name="initial_value">0</param>
+            </state_interface>
+            <state_interface name="velocity">
+                <param name="initial_value">0</param>
+            </state_interface>
+        </joint>
+        <joint name="gripper_joint3">
+            <command_interface name="position"/>
+            <!-- <command_interface name="velocity"/> -->
+            <state_interface name="position">
+                <param name="initial_value">0</param>
+            </state_interface>
+            <state_interface name="velocity">
+                <param name="initial_value">0</param>
+            </state_interface>
+        </joint>
+        <joint name="gripper_joint4">
+            <command_interface name="position"/>
+            <!-- <command_interface name="velocity"/> -->
+            <state_interface name="position">
+                <param name="initial_value">0</param>
+            </state_interface>
+            <state_interface name="velocity">
+                <param name="initial_value">0</param>
+            </state_interface>
         </joint>
     </ros2_control>
 
@@ -107,7 +214,4 @@
             <robot_param_node>robot_state_publisher</robot_param_node>
         </plugin>
     </gazebo>
-
-
 </robot>
-

@@ -42,4 +42,7 @@
     <disable_collisions link1="link4" link2="link5" reason="Adjacent"/>
     <disable_collisions link1="link4" link2="link6" reason="Never"/>
     <disable_collisions link1="link5" link2="link6" reason="Adjacent"/>
+
+    <!-- STATIC VIRTUAL JOINT -->
+    <virtual_joint name="fixed_base_virtual_joint" type="fixed" parent_frame="world" child_link="base_link"/>
 </robot>

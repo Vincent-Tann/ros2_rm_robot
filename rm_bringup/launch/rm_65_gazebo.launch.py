@@ -15,6 +15,9 @@ def generate_launch_description():
     rm_65_gazebo_up = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(get_package_share_directory(('rm_gazebo')),'launch', 'gazebo_65_demo.launch.py'))
     )
+#     rm_65_gazebo_up = IncludeLaunchDescription(
+#             PythonLaunchDescriptionSource(os.path.join(get_package_share_directory(('rm_gazebo')),'launch', 'my_gazebo_65_demo.launch.py')) #修改后的gazebo启动文件
+#     )
     rm_65_gazebo_moveit = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(get_package_share_directory(('rm_65_config')),'launch', 'gazebo_moveit_demo.launch.py'))
     )

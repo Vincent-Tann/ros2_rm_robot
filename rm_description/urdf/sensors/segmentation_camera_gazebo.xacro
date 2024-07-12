@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="segmentation_camera">
+
+  <xacro:macro name="segmentation_camera" params="prefix:=segmentation_camera width:=640 height:=480 fov:=1.3962634">
+    <!-- Create camera reference frame -->
+    <link name="${prefix}_link">
+      <inertial>
+        <mass value="0.1" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.01" ixy="0.0" ixz="0.0"
+                 iyy="0.01" iyz="0.0"
+                 izz="0.01" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.03 0.06 0.06" />
+        </geometry>
+        <material name="black"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.03 0.06 0.06" />
+        </geometry>
+        <!-- No collision for segmentation camera -->
+        <surface>
+          <contact>
+            <collide_bitmask>0x00</collide_bitmask>
+          </contact>
+        </surface>
+      </collision>
+    </link>
+
+    <gazebo reference="${prefix}_link">
+      <material>Gazebo/Black</material>
+    </gazebo>
+
+    <gazebo reference="${prefix}_link">
+      <sensor type="segmentation" name="segmentation_camera">
+        <update_rate>30.0</update_rate>
+        <camera name="head">
+          <segmentation_type>instance</segmentation_type>
+          <horizontal_fov>${fov}</horizontal_fov>
+          <image>
+            <width>${width}</width>
+            <height>${height}</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+        </camera>
+        <always_on>1</always_on>
+        <plugin name="gazebo_segmentation" filename="libgazebo_ros_segmentation.so">
+          <ros>
+            <remapping>~/image_raw:=segmentation_image_raw</remapping>
+            <remapping>~/camera_info:=segmentation_camera_info</remapping>
+          </ros>
+          <camera_name>${prefix}</camera_name>
+          <frame_name>${prefix}_link</frame_name>
+        </plugin>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+
+</robot>

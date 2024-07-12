@@ -11,6 +11,8 @@ from ament_index_python.packages import get_package_share_directory
 
 import xacro
 
+from launch.actions import SetEnvironmentVariable
+
 def generate_launch_description():
     package_name = 'rm_gazebo'
 
@@ -26,7 +28,7 @@ def generate_launch_description():
     xacro.process_doc(doc)
     params = {'robot_description': doc.toxml()}
 
-    print("urdf", doc.toxml())
+    # print("urdf", doc.toxml())
 
     # 启动gazebo
     gazebo = IncludeLaunchDescription(
@@ -63,8 +65,27 @@ def generate_launch_description():
     # 路径执行控制器，也就是那个action？
     # 这个rm_group_controller需要根据urdf文件里面引用的ros2_controllers.yaml里面的名字确定
     load_joint_trajectory_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+        # cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'inactive',
              'rm_group_controller'],
+        output='screen'
+    )
+    
+    # txs新加的关节角度控制器
+    load_joint_position_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active', 'joint_position_controller'],
+        output='screen'
+    )
+    
+    # txs新加的关节角速度控制器
+    load_joint_velocity_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active', 'joint_velocity_controller'],
+        output='screen'
+    )
+    
+    # txs新加的gripper角度控制器
+    load_gripper_position_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active', 'gripper_position_controller'],
         output='screen'
     )
 
@@ -81,16 +102,33 @@ def generate_launch_description():
     close_evt2 = RegisterEventHandler(
             event_handler=OnProcessExit(
                 target_action=load_joint_state_controller,
-                on_exit=[load_joint_trajectory_controller],
+                on_exit=[load_joint_trajectory_controller, load_joint_position_controller, load_joint_velocity_controller, load_gripper_position_controller],
+                # on_exit=[load_joint_velocity_controller],
             )
     )
     
+    rviz_config = os.path.join(
+        get_package_share_directory('rm_gazebo'),
+        'rviz',
+        'arm_control.rviz'
+    )
+    
+    rviz_node =Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            output='screen',
+            arguments=['-d', rviz_config]
+            )
+    
     ld = LaunchDescription([
+        # SetEnvironmentVariable('RCUTILS_LOGGING_SEVERITY_THRESHOLD', 'DEBUG'),
         close_evt1,
         close_evt2,
         gazebo,
         node_robot_state_publisher,
         spawn_entity,
+        # rviz_node
     ])
 
     return ld

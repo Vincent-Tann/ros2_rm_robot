@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="complete_scene">
+
+  <!-- 包含机械臂模型 -->
+  <xacro:include filename="$(find rm_gazebo)/config/gazebo_65_description.urdf.xacro"/>
+  <!-- <xacro:rm_65_description/> -->
+
+  <!-- 桌子1（起点） -->
+  <gazebo>
+    <include>
+      <uri>model://table</uri>
+      <!-- <uri>file:///home/txszju/.gazebo/models/table/model.sdf</uri> -->
+      <pose>0.1 -0.6 0 0 0 0</pose> <!-- 设置桌子的位置 -->
+    </include>
+  </gazebo>
+
+  <!-- 桌子2（终点） -->
+  <gazebo>
+    <include>
+      <uri>model://table_high</uri>
+
+      <pose>-0.4 0.1 0 0 0 ${pi/2}</pose> <!-- 设置桌子的位置 -->
+    </include>
+  </gazebo>
+
+  <!-- 加载碗模型 -->
+  <gazebo>
+    <include>
+      <uri>model://bowl_flower</uri>
+      <!-- <uri>file:///home/txszju/.gazebo/models/bowl_flower</uri> -->
+      <pose>0.1 -0.6 0.26 0 0 0</pose> <!-- 设置碗的位置在桌子上方 -->
+    </include>
+  </gazebo>
+
+  <!-- 定义相机 -->
+  <xacro:include filename="$(find rm_description)/urdf/sensors/camera_gazebo.xacro"/>
+  <xacro:usb_camera prefix="camera" type="depth" width="640" height="480" fps="8"/>
+  <!-- <xacro:include filename="$(find rm_description)/urdf/sensors/rgbd_gazebo.xacro"/> -->
+  <!-- <xacro:rgbd_camera/> -->
+  <!-- <xacro:include filename="$(find rm_description)/urdf/sensors/kinect_gazebo.xacro"/> -->
+  <!-- <xacro:kinect_camera/> -->
+  <joint name="camera_joint" type="fixed">
+    <parent link="world"/>
+    <child link="camera_link"/>
+    <!-- <origin xyz="-1.2 0 1.2" rpy="0 ${pi/5} 0"/> -->
+    <origin xyz="-0.5 -0.6 0.75" rpy="0 ${pi/4} 0"/>
+  </joint>
+
+  <!-- 定义分割相机 -->
+  <!-- <xacro:include filename="$(find rm_description)/urdf/sensors/segmentation_camera_gazebo.xacro"/>
+  <xacro:segmentation_camera
+      prefix="segmentation_camera"
+      width="640"
+      height="480"
+      fov="1.3962634"/>
+  <joint name="segmentation_camera_joint" type="fixed">
+    <parent link="world"/>
+    <child link="segmentation_camera_link"/>
+    <origin xyz="-1.2 0.2 1.2" rpy="0 ${pi/5} 0"/> 
+  </joint> -->
+
+</robot>

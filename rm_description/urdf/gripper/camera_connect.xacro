@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="camera_connect_robot">
+
+    <!-- 定义宏 -->
+    <xacro:macro name="camera_connect" params="parent_link">
+          <link
+          name="camera_connect">
+          <inertial>
+            <origin
+              xyz="0.045819 0 0.0039533"
+              rpy="0 0 0" />
+            <mass
+              value="0.051365" />
+            <inertia
+              ixx="1.5947E-05"
+              ixy="2.2017E-20"
+              ixz="-1.4477E-07"
+              iyy="8.6653E-05"
+              iyz="-1.9465E-21"
+              izz="0.00010204" />
+          </inertial>
+          <visual>
+            <origin
+              xyz="0 0 0"
+              rpy="0 0 0" />
+            <geometry>
+              <mesh
+                filename="file://$(find rm_description)/meshes/gripper/camera_connect.STL" />
+            </geometry>
+            <material
+              name="">
+              <color
+                rgba="0.79216 0.81961 0.93333 1" />
+            </material>
+          </visual>
+          <collision>
+            <origin
+              xyz="0 0 0"
+              rpy="0 0 0" />
+            <geometry>
+              <mesh
+                filename="file://$(find rm_description)/meshes/gripper/camera_connect.STL" />
+            </geometry>
+          </collision>
+        </link>
+        <joint
+          name="arm_joint_camera"
+          type="fixed">
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <parent
+            link="${parent_link}" />
+          <child
+            link="camera_connect" />
+          <axis
+            xyz="0 0 0" />
+        </joint>
+    </xacro:macro>
+
+</robot>

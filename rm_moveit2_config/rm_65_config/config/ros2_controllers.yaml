@@ -6,10 +6,19 @@ controller_manager:
     rm_group_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
-
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
+    joint_velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
+    joint_position_controller:
+      type: position_controllers/JointGroupPositionController
+
+    gripper_position_controller:
+      type: position_controllers/JointGroupPositionController
+
+# 机械臂关节轨迹控制
 rm_group_controller:
   ros__parameters:
     joints:
@@ -19,6 +28,52 @@ rm_group_controller:
       - joint4
       - joint5
       - joint6
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+
+# 机械臂关节角度控制
+joint_position_controller:
+  ros__parameters:
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+
+# 机械臂关节角速度控制
+joint_velocity_controller:
+  ros__parameters:
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+    command_interfaces:
+      - velocity
+    state_interfaces:
+      - position
+      - velocity
+
+# 夹爪关节角度控制
+gripper_position_controller:
+  ros__parameters:
+    joints:
+      - gripper_joint1
+      - gripper_joint2
+      - gripper_joint3
+      - gripper_joint4
     command_interfaces:
       - position
     state_interfaces:

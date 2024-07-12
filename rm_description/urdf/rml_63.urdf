@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot
   name="rml_63_description">
+  <link name="world"/>
   <link
     name="base_link">
     <inertial>
@@ -41,6 +42,13 @@
       </geometry>
     </collision>
   </link>
+
+  <joint name="world_joint" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
   <link
     name="link1">
     <inertial>
@@ -81,6 +89,7 @@
       </geometry>
     </collision>
   </link>
+
   <joint
     name="joint1"
     type="revolute">
@@ -99,6 +108,7 @@
       effort="60"
       velocity="3.14" />
   </joint>
+  
   <link
     name="link2">
     <inertial>
